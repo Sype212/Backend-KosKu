@@ -86,7 +86,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
+            'url' => env('postgresql://postgres.bcwmbtfnktnsidbefqbb:2eid0ENXM1VK7ObZ@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),
