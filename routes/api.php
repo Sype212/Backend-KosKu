@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\PemilikKosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 // ========================
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login',    [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 // ========================
@@ -25,9 +25,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Auth
     Route::prefix('auth')->group(function () {
-        Route::post('/logout',          [AuthController::class, 'logout']);
-        Route::get('/profile',          [AuthController::class, 'profile']);
-        Route::put('/profile',          [AuthController::class, 'updateProfile']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/profile', [AuthController::class, 'profile']);
+        Route::put('/profile', [AuthController::class, 'updateProfile']);
+    });
+
+    Route::middleware('role:pemilik')->prefix('pemilik')->name('pemilik.')->group(function () {
+        Route::get('/dashboard', [PemilikKosController::class, 'dashboard'])->name('dashboard');
+        Route::get('/kos', [PemilikKosController::class, 'index'])->name('kos.index');
+        Route::post('/kos', [PemilikKosController::class, 'store'])->name('kos.store');
+        Route::get('/kos/{id}', [PemilikKosController::class, 'show'])->name('kos.show');
+        Route::put('/kos/{id}', [PemilikKosController::class, 'update'])->name('kos.update');
+        Route::delete('/kos/{id}', [PemilikKosController::class, 'destroy'])->name('kos.destroy');
+        Route::patch('/kos/{id}/ketersediaan', [PemilikKosController::class, 'updateKetersediaan'])->name('kos.ketersediaan');
     });
 
     // ========================

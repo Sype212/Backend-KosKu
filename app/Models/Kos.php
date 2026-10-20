@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class Kos extends Model
 {
+    protected $appends = ['status'];
+
     protected function casts(): array
     {
         return [
@@ -28,5 +30,10 @@ class Kos extends Model
     public function pemilik(): BelongsTo
     {
         return $this->belongsTo(User::class, 'pemilik_id');
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return $this->kamar_tersedia > 0 ? 'tersedia' : 'penuh';
     }
 }
